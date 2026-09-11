@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villa Bumi Harian - Cibodas Lembang</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'blue': '#0064D2',
+                        'blue-dark': '#004C9E',
+                        'blue-deep': '#003573',
+                        'blue-light': '#EAF3FF',
+                        'blue-pale': '#F5F9FF',
+                        'navy': '#0F2942',
+                        'navy-soft': '#42566B',
+                        'slate': '#5B6B79',
+                        'gold': '#FFB800',
+                        'mint': '#0FA968',
+                    },
+                    fontFamily: {
+                        'heading': ['Poppins', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(180deg, rgba(6, 22, 46, 0.55) 0%, rgba(6, 22, 46, 0.75) 100%),
+                url('image/bumi harian logo.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-img {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #0064D2;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #004C9E;
+            box-shadow: 0 8px 20px rgba(0, 100, 210, 0.3);
+        }
+
+        .section-padding {
+            padding: 5rem 1rem;
+        }
+
+        .amenity-item {
+            transition: all 0.2s ease;
+        }
+
+        .amenity-item:hover {
+            border-color: #0064D2;
+        }
+
+        .gallery-img-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 41, 66, 0);
+            transition: background 0.2s ease;
+            pointer-events: none;
+        }
+
+        .gallery-img-wrap:hover::after {
+            background: rgba(15, 41, 66, 0.15);
+        }
+
+        .gallery-img-wrap .expand-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 0;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+
+        .gallery-img-wrap:hover .expand-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(6, 12, 22, 0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.15);
+        }
+
+        /* Form Styles */
+        .form-input {
+            border: 1.5px solid #DCE4EC;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: #0064D2;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 100, 210, 0.15);
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F5F9FF;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0064D2;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #004C9E;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-navy font-body">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-3">
+                <a href="#home" class="flex items-center space-x-2">
+                    <img src="image/logo.PNG" alt="Bumi Harian Logo" class="h-10 w-auto rounded">
+                    <span class="font-heading text-lg font-bold text-navy">Bumi Harian</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-7 text-sm font-semibold">
+                    <a href="#about" class="text-navy-soft hover:text-blue transition">About</a>
+                    <a href="#accommodation" class="text-navy-soft hover:text-blue transition">Rooms</a>
+                    <a href="#amenities" class="text-navy-soft hover:text-blue transition">Amenities</a>
+                    <a href="#gallery" class="text-navy-soft hover:text-blue transition">Gallery</a>
+                    <a href="tel:+6281910160707" class="text-navy-soft hover:text-blue transition hidden lg:inline-flex items-center gap-2">
+                        <i class="fas fa-phone-alt text-blue text-xs"></i> +62 819-1016-0707
+                    </a>
+                </div>
+                <a href="#booking" class="btn-primary text-white px-5 py-2.5 rounded-lg font-semibold text-sm">
+                    Check Availability
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-[640px] pt-32 pb-40 flex items-start justify-center text-white relative">
+        <div class="text-center px-4 max-w-3xl mx-auto">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
+                <i class="fas fa-map-marker-alt text-blue-light"></i>
+                Cibodas, Lembang &mdash; 1,300m above sea level
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-5 leading-tight">
+                A private villa for your family's next getaway
+            </h1>
+            <p class="text-base md:text-lg font-normal text-white/85 max-w-xl mx-auto">
+                4 bedrooms, room for 16 guests, and cool mountain air &mdash; ten minutes from Lembang's main road.
+            </p>
+        </div>
+    </section>
+
+    <!-- Floating Search / Booking Teaser Card (Traveloka-style overlap) -->
+    <div class="max-w-5xl mx-auto px-4 -mt-24 relative z-20">
+        <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 md:p-6">
+            <form onsubmit="event.preventDefault(); document.querySelector('#booking').scrollIntoView({behavior:'smooth', block:'start'});" class="grid md:grid-cols-[1fr_1fr_1fr_auto] gap-4 items-end">
+                <div>
+                    <label class="block text-xs font-semibold text-slate mb-1.5">Check-in</label>
+                    <div class="relative">
+                        <i class="fas fa-calendar-check absolute left-3 top-1/2 -translate-y-1/2 text-blue text-sm"></i>
+                        <input type="date" id="hero-checkin" class="form-input w-full pl-9 pr-3 py-2.5 rounded-lg text-sm text-navy">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate mb-1.5">Check-out</label>
+                    <div class="relative">
+                        <i class="fas fa-calendar-times absolute left-3 top-1/2 -translate-y-1/2 text-blue text-sm"></i>
+                        <input type="date" id="hero-checkout" class="form-input w-full pl-9 pr-3 py-2.5 rounded-lg text-sm text-navy">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate mb-1.5">Guests</label>
+                    <div class="relative">
+                        <i class="fas fa-user-friends absolute left-3 top-1/2 -translate-y-1/2 text-blue text-sm"></i>
+                        <select class="form-input w-full pl-9 pr-3 py-2.5 rounded-lg text-sm text-navy bg-white">
+                            <option>1-4 Guests</option>
+                            <option>5-8 Guests</option>
+                            <option>9-12 Guests</option>
+                            <option>13-16 Guests</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary text-white px-6 py-2.5 rounded-lg font-semibold text-sm whitespace-nowrap">
+                    <i class="fas fa-search mr-2"></i>Search
+                </button>
+            </form>
+        </div>
+
+        <!-- Trust stats row -->
+        <div class="grid grid-cols-3 divide-x divide-gray-200 bg-white rounded-2xl shadow-md border border-gray-100 mt-4 py-5">
+            <div class="text-center px-2">
+                <p class="font-heading text-xl md:text-2xl font-bold text-navy"><i class="fas fa-star text-gold mr-1"></i>4.9</p>
+                <p class="text-xs text-slate mt-1">Guest rating</p>
+            </div>
+            <div class="text-center px-2">
+                <p class="font-heading text-xl md:text-2xl font-bold text-navy">4 BR</p>
+                <p class="text-xs text-slate mt-1">Up to 16 guests</p>
+            </div>
+            <div class="text-center px-2">
+                <p class="font-heading text-xl md:text-2xl font-bold text-navy">1,300m</p>
+                <p class="text-xs text-slate mt-1">Above sea level</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding bg-white pt-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <p class="text-blue font-semibold text-sm mb-3">Our little haven</p>
+                    <h2 class="text-3xl md:text-4xl font-heading font-bold text-navy mb-5 leading-snug">
+                        Cool mountain air and pine forest views
+                    </h2>
+                    <p class="text-base text-slate leading-relaxed mb-4">
+                        Nestled in the heart of Cibodas, Lembang, our villa offers a refreshing escape from the city
+                        heat. Surrounded by majestic pine forests and rolling hills, you'll wake up to crisp, cool
+                        mountain air and views that soothe the soul.
+                    </p>
+                    <p class="text-base text-slate leading-relaxed">
+                        Whether you're seeking a peaceful family retreat or a gathering with friends, our private
+                        sanctuary provides the perfect backdrop for creating unforgettable memories together.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mt-6">
+                        <div class="flex items-center gap-2 text-sm text-navy-soft font-medium">
+                            <i class="fas fa-circle-check text-mint"></i> Free cancellation
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-navy-soft font-medium">
+                            <i class="fas fa-circle-check text-mint"></i> Instant WhatsApp confirmation
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="image/bumi harian logo.jpeg" alt="Villa exterior with mountain view"
+                        class="rounded-2xl shadow-xl w-full object-cover h-96">
+                    <div class="absolute -bottom-5 -left-5 bg-blue text-white p-5 rounded-xl shadow-lg">
+                        <p class="text-2xl font-heading font-bold">1,300m</p>
+                        <p class="text-xs text-white/80">Above Sea Level</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accommodation Highlights -->
+    <section id="accommodation" class="section-padding bg-blue-pale">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-blue font-semibold text-sm mb-3">Comfortable spaces</p>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-navy">
+                    Your home away from home
+                </h2>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-8 md:p-12">
+                <div class="grid md:grid-cols-3 gap-8 mb-10">
+                    <!-- Bedrooms -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-light rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bed text-blue text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-navy">4 Bedrooms</h3>
+                        <p class="text-slate mt-1.5 text-sm">Spacious rooms with premium bedding</p>
+                    </div>
+
+                    <!-- Bathrooms -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-light rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bath text-blue text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-navy">3 Bathrooms</h3>
+                        <p class="text-slate mt-1.5 text-sm">Modern fixtures with hot water</p>
+                    </div>
+
+                    <!-- Capacity -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-light rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-blue text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-navy">Up to 16 Guests</h3>
+                        <p class="text-slate mt-1.5 text-sm">Perfect for large families</p>
+                    </div>
+                </div>
+
+                <!-- Bed Configuration Highlight -->
+                <div class="bg-navy rounded-2xl p-8 text-center">
+                    <h3 class="text-white text-xl md:text-2xl font-heading font-bold mb-3">
+                        <i class="fas fa-star text-gold mr-2"></i>
+                        Generous bed configuration
+                    </h3>
+                    <p class="text-white/75 text-base mb-6">Designed for big groups &mdash; no one gets left out</p>
+                    <div class="flex flex-wrap justify-center gap-4 text-white">
+                        <div class="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-2">
+                            <i class="fas fa-bed text-blue-light"></i>
+                            <span class="font-medium text-sm">6 Queen Size Beds</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-2">
+                            <i class="fas fa-bed text-blue-light"></i>
+                            <span class="font-medium text-sm">+ 4 Single Beds</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section id="amenities" class="section-padding bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-blue font-semibold text-sm mb-3">Luxury amenities</p>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-navy">
+                    Everything you need
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- WiFi -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-wifi text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">High-Speed WiFi</h3>
+                </div>
+
+                <!-- Netflix -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-tv text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">Netflix</h3>
+                </div>
+
+                <!-- Kitchen -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-utensils text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">Full Kitchen</h3>
+                </div>
+
+                <!-- BBQ Area -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-fire text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">BBQ Area</h3>
+                </div>
+
+                <!-- Mushola -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-mosque text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">Mushola</h3>
+                </div>
+
+                <!-- Water Heater -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-hot-tub text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">Water Heater</h3>
+                </div>
+
+                <!-- Water Supply -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-tint text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">2 Gallons Water</h3>
+                </div>
+
+                <!-- Parking -->
+                <div class="amenity-item border border-gray-200 rounded-xl p-5 text-center">
+                    <div class="w-12 h-12 bg-blue-light rounded-lg flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-parking text-blue text-lg"></i>
+                    </div>
+                    <h3 class="font-semibold text-navy text-sm">Free Parking</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section id="gallery" class="section-padding bg-blue-pale">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-blue font-semibold text-sm mb-3">Visual tour</p>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-navy">
+                    Our gallery
+                </h2>
+            </div>
+
+            <!-- Masonry Layout -->
+            <div class="columns-2 md:columns-3 gap-4 space-y-4">
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/Syahdu.jpg" alt="Villa exterior" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/Syahdu (1).jpg" alt="Living room" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/bumi 1.jpg" alt="Bedroom" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/bumi 2.jpg" alt="Kitchen" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/bumi 3.jpg" alt="Bathroom" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/bumi 4.jpeg" alt="Balcony view" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/bumi 5.jpeg" alt="Garden" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/bumi 6.jpeg" alt="Dining area" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+
+                <div class="gallery-img-wrap gallery-img rounded-xl cursor-pointer shadow-sm" onclick="openLightbox(this.querySelector('img'))">
+                    <img src="image/Syahdu.jpg" alt="Villa exterior duplicate" class="w-full rounded-xl">
+                    <i class="fas fa-expand expand-icon text-white text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <i class="fas fa-times lightbox-close"></i>
+        <img id="lightbox-img" src="" alt="Full screen image">
+    </div>
+
+    <!-- Booking Section -->
+    <section id="booking" class="section-padding bg-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-blue font-semibold text-sm mb-3">Reserve now</p>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-navy">
+                    Book your stay
+                </h2>
+                <p class="text-slate mt-3 text-base">
+                    Fill in the form below and we'll check availability for you
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-12">
+                <form id="booking-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Check-in Date -->
+                        <div>
+                            <label class="block text-navy font-semibold mb-2 text-sm">
+                                <i class="fas fa-calendar-check text-blue mr-2"></i>
+                                Check-in Date
+                            </label>
+                            <input type="date" id="checkin" name="checkin" required
+                                class="form-input w-full px-4 py-3 rounded-lg">
+                        </div>
+
+                        <!-- Check-out Date -->
+                        <div>
+                            <label class="block text-navy font-semibold mb-2 text-sm">
+                                <i class="fas fa-calendar-times text-blue mr-2"></i>
+                                Check-out Date
+                            </label>
+                            <input type="date" id="checkout" name="checkout" required
+                                class="form-input w-full px-4 py-3 rounded-lg">
+                        </div>
+                    </div>
+
+                    <!-- Number of Guests -->
+                    <div>
+                        <label class="block text-navy font-semibold mb-2 text-sm">
+                            <i class="fas fa-user-friends text-blue mr-2"></i>
+                            Number of Guests
+                        </label>
+                        <select id="guests" name="guests" required
+                            class="form-input w-full px-4 py-3 rounded-lg bg-white">
+                            <option value="">Select number of guests</option>
+                            <option value="1-4">1-4 Guests</option>
+                            <option value="5-8">5-8 Guests</option>
+                            <option value="9-12">9-12 Guests</option>
+                            <option value="13-16">13-16 Guests</option>
+                        </select>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div>
+                        <label class="block text-navy font-semibold mb-2 text-sm">
+                            <i class="fas fa-user text-blue mr-2"></i>
+                            Full Name
+                        </label>
+                        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required
+                            class="form-input w-full px-4 py-3 rounded-lg">
+                    </div>
+
+                    <!-- WhatsApp Number -->
+                    <div>
+                        <label class="block text-navy font-semibold mb-2 text-sm">
+                            <i class="fab fa-whatsapp text-blue mr-2"></i>
+                            WhatsApp Number
+                        </label>
+                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+62 81910160707" required
+                            class="form-input w-full px-4 py-3 rounded-lg">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="btn-primary w-full text-white py-4 rounded-lg text-base font-semibold mt-8">
+                        <i class="fas fa-search mr-2"></i>
+                        Check Availability
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy text-white py-16">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="font-heading text-xl font-bold mb-6">Contact Us</h3>
+                    <div class="space-y-4 text-sm">
+                        <p class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-blue-light mt-1 mr-3"></i>
+                            <span class="text-white/75">Jl. Cibodas Raya, Lembang,<br>Bandung Barat, Jawa Barat</span>
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-phone text-blue-light mr-3"></i>
+                            <span class="text-white/75">+62 81910160707</span>
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-envelope text-blue-light mr-3"></i>
+                            <span class="text-white/75">Bumiharian@gmail.com</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-heading text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#about" class="text-white/75 hover:text-white transition">About Us</a></li>
+                        <li><a href="#accommodation" class="text-white/75 hover:text-white transition">Accommodation</a></li>
+                        <li><a href="#amenities" class="text-white/75 hover:text-white transition">Amenities</a></li>
+                        <li><a href="#gallery" class="text-white/75 hover:text-white transition">Gallery</a></li>
+                        <li><a href="#booking" class="text-white/75 hover:text-white transition">Book Now</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h3 class="font-heading text-xl font-bold mb-6">Follow Us</h3>
+                    <p class="mb-4 text-white/60 text-sm">Stay connected with us on social media</p>
+                    <div class="flex space-x-3">
+                        <a href="https://www.instagram.com/bumiharian?igsh=N2QxdnVlOGU1bHNz" target="_blank"
+                            class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://wa.me/6281910160707" target="_blank"
+                            class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@bumiharian?_r=1&_t=ZS-94ByeL8WwLf" target="_blank"
+                            class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue transition">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-white/10 mt-12 pt-8 text-center">
+                <p class="text-white/50 text-sm">
+                    &copy; 2025 Villa Bumi Harian. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Lightbox -->
+    <script>
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(imageElement) {
+            const src = imageElement.src;
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Enable scrolling
+        }
+
+        // Close lightbox on escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Form submission handler
+        document.getElementById('booking-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            const guests = document.getElementById('guests').value;
+            const fullname = document.getElementById('fullname').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+
+            // Validate dates
+            if (new Date(checkin) >= new Date(checkout)) {
+                alert('Check-out date must be after check-in date!');
+                return;
+            }
+
+            // Create WhatsApp message
+            const message = `Hello! I'd like to book a stay at Villa Cibodas.\n\n` +
+                `Check-in: ${checkin}\n` +
+                `Check-out: ${checkout}\n` +
+                `Guests: ${guests}\n` +
+                `Name: ${fullname}\n` +
+                `WhatsApp: ${whatsapp}`;
+
+            // Encode message for WhatsApp
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/6281910160707?text=${encodedMessage}`;
+
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // Set minimum date for date pickers (today)
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkin').setAttribute('min', today);
+        document.getElementById('checkout').setAttribute('min', today);
+        document.getElementById('hero-checkin').setAttribute('min', today);
+        document.getElementById('hero-checkout').setAttribute('min', today);
+
+        // Update checkout min date when checkin changes
+        document.getElementById('checkin').addEventListener('change', function () {
+            const checkinDate = new Date(this.value);
+            checkinDate.setDate(checkinDate.getDate() + 1);
+            const minCheckout = checkinDate.toISOString().split('T')[0];
+            document.getElementById('checkout').setAttribute('min', minCheckout);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
